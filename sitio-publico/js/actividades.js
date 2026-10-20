@@ -27,7 +27,8 @@ function crearElemento(etiqueta, clase, texto) {
 // ---------- Crear una tarjeta ----------
 // Recibe un objeto Actividad y devuelve un <article> listo para insertar.
 function crearTarjeta(actividad) {
-  const tarjeta = crearElemento("article", "tarjeta", "");
+  // "revelar" hace que la tarjeta aparezca con animación (ver efectos.js)
+  const tarjeta = crearElemento("article", "tarjeta revelar", "");
 
   // Título y disciplina
   tarjeta.appendChild(crearElemento("h3", "", actividad.nombre));
@@ -69,6 +70,9 @@ function dibujarActividades(actividades) {
   } else {
     textoContador.textContent = "Se encontraron " + actividades.length + " actividades.";
   }
+
+  // Muestra con animación las tarjetas nuevas que ya están en pantalla
+  revisarElementosVisibles();
 }
 
 // ---------- Cargar opciones del select ----------

@@ -8,11 +8,14 @@
 </head>
 <body>
 
+  <!-- Barra que se llena a medida que se scrollea (la maneja efectos.js) -->
+  <div id="barra-progreso"></div>
+
   <!-- Encabezado con logo, nombre del club y menú (igual en las 3 páginas) -->
   <header class="encabezado">
     <div class="marca">
       <img src="img/logo.svg" alt="Logo del Club Los Algarrobos: un algarrobo dentro de un círculo verde" class="logo">
-      <p class="nombre-club">Club Social y Deportivo Los Algarrobos</p>
+      <p class="nombre-club">Club Los Algarrobos</p>
     </div>
     <nav class="menu">
       <ul>
@@ -23,71 +26,90 @@
     </nav>
   </header>
 
-  <main class="contenedor con-lateral">
+  <main>
 
-    <div class="contenido">
-      <h1>Bienvenidos al Club Los Algarrobos</h1>
-
-      <!-- Presentación del club -->
-      <section id="presentacion">
-        <h2>¿Quiénes somos?</h2>
-        <p>
-          Somos un club de barrio de la zona norte de Córdoba. Hoy somos
-          cerca de <strong>650 socios</strong> entre chicos, jóvenes y adultos
-          que comparten deporte, amistad y vida de barrio.
+    <!-- Portada grande con el título y los datos principales -->
+    <section class="portada">
+      <div class="portada-contenido">
+        <p class="portada-etiqueta">Club Social y Deportivo · Zona norte de Córdoba</p>
+        <h1>Deporte, amistad y vida de barrio</h1>
+        <p class="portada-texto">
+          Hace más de 50 años que en Los Algarrobos chicos, jóvenes y adultos
+          comparten la cancha, la pileta y el salón.
         </p>
-        <img src="img/cancha.svg" alt="Dibujo de la cancha principal del club vista desde arriba" class="imagen-ancha">
-        <p>En el club podés encontrar:</p>
-        <ul>
-          <li>Deportes en equipo: fútbol, vóley y básquet.</li>
-          <li>Natación y patín artístico.</li>
-          <li>Ajedrez, funcional para adultos y yoga.</li>
+        <div class="portada-botones">
+          <a href="actividades.html" class="boton">Ver actividades</a>
+          <a href="preinscripcion.html" class="boton boton-claro">Preinscribirme</a>
+        </div>
+        <ul class="cifras">
+          <li><strong>650</strong> socios</li>
+          <li><strong>8</strong> actividades</li>
+          <li><strong>1974</strong> año de fundación</li>
         </ul>
-        <p>
-          <a href="actividades.html" class="boton">Ver todas las actividades</a>
-        </p>
-      </section>
+      </div>
+    </section>
 
-      <!-- Historia breve -->
-      <section id="historia">
-        <h2>Nuestra historia</h2>
-        <p>
-          El club nació en 1974, cuando un grupo de vecinos se juntaba a jugar
-          al fútbol en un terreno baldío rodeado de algarrobos. Con rifas,
-          kermeses y mucho trabajo voluntario se compró el terreno y se
-          levantó la primera sede.
-        </p>
-        <h3>Algunos hitos</h3>
-        <ol>
-          <li>1974: fundación del club por vecinos del barrio.</li>
-          <li>1988: inauguración del salón social.</li>
-          <li>2005: construcción de la pileta climatizada.</li>
-          <li>2019: renovación del playón polideportivo.</li>
-        </ol>
-      </section>
+    <div class="contenedor con-lateral">
 
-      <!-- Ubicación -->
-      <section id="ubicacion">
-        <h2>Dónde estamos</h2>
-        <address>
-          Calle Los Talas 2350, zona norte, Córdoba Capital.<br>
-          Teléfono: (0351) 555-1234<br>
-          Correo: <a href="mailto:secretaria@losalgarrobos.org.ar">secretaria@losalgarrobos.org.ar</a>
-        </address>
-        <p>Llegás con las líneas de colectivo que pasan por la avenida principal del barrio.</p>
-      </section>
+      <div class="contenido">
+        <!-- Presentación del club -->
+        <section id="presentacion" class="bloque revelar">
+          <h2>¿Quiénes somos?</h2>
+          <p>
+            Somos un club de barrio de la zona norte de Córdoba. Hoy somos
+            cerca de <strong>650 socios</strong> entre chicos, jóvenes y adultos
+            que comparten deporte, amistad y vida de barrio.
+          </p>
+          <img src="img/cancha.svg" alt="Dibujo de la cancha principal del club vista desde arriba" class="imagen-ancha">
+          <p>En el club podés encontrar:</p>
+          <ul>
+            <li>Deportes en equipo: fútbol, vóley y básquet.</li>
+            <li>Natación y patín artístico.</li>
+            <li>Ajedrez, funcional para adultos y yoga.</li>
+          </ul>
+        </section>
+
+        <!-- Historia breve -->
+        <section id="historia" class="bloque revelar">
+          <h2>Nuestra historia</h2>
+          <p>
+            El club nació en 1974, cuando un grupo de vecinos se juntaba a jugar
+            al fútbol en un terreno baldío rodeado de algarrobos. Con rifas,
+            kermeses y mucho trabajo voluntario se compró el terreno y se
+            levantó la primera sede.
+          </p>
+          <h3>Algunos hitos</h3>
+          <ol class="linea-tiempo">
+            <li><strong>1974</strong> Fundación del club por vecinos del barrio.</li>
+            <li><strong>1988</strong> Inauguración del salón social.</li>
+            <li><strong>2005</strong> Construcción de la pileta climatizada.</li>
+            <li><strong>2019</strong> Renovación del playón polideportivo.</li>
+          </ol>
+        </section>
+
+        <!-- Ubicación -->
+        <section id="ubicacion" class="bloque revelar">
+          <h2>Dónde estamos</h2>
+          <address>
+            Calle Los Talas 2350, zona norte, Córdoba Capital.<br>
+            Teléfono: (0351) 555-1234<br>
+            Correo: <a href="mailto:secretaria@losalgarrobos.org.ar">secretaria@losalgarrobos.org.ar</a>
+          </address>
+          <p>Llegás con las líneas de colectivo que pasan por la avenida principal del barrio.</p>
+        </section>
+      </div>
+
+      <!-- Información complementaria al costado -->
+      <aside class="lateral revelar">
+        <h2>Horario de secretaría</h2>
+        <ul>
+          <li>Lunes a viernes: 9 a 13 y 16 a 21 h.</li>
+          <li>Sábados: 9 a 13 h.</li>
+        </ul>
+        <p>¿Querés sumarte? Completá la <a href="preinscripcion.html">preinscripción online</a> y te contactamos.</p>
+      </aside>
+
     </div>
-
-    <!-- Información complementaria al costado -->
-    <aside class="lateral">
-      <h2>Horario de secretaría</h2>
-      <ul>
-        <li>Lunes a viernes: 9 a 13 y 16 a 21 h.</li>
-        <li>Sábados: 9 a 13 h.</li>
-      </ul>
-      <p>¿Querés sumarte? Completá la <a href="preinscripcion.html">preinscripción online</a> y te contactamos.</p>
-    </aside>
-
   </main>
 
   <!-- Pie de página -->
@@ -95,5 +117,9 @@
     <p>&copy; 2026 Club Social y Deportivo Los Algarrobos — Córdoba, Argentina.</p>
   </footer>
 
+  <!-- Botón flotante para volver al principio (lo maneja efectos.js) -->
+  <button type="button" id="boton-arriba" aria-label="Volver arriba">↑</button>
+
+  <script src="js/efectos.js"></script>
 </body>
 </html>
