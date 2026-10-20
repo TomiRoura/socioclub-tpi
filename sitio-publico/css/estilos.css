@@ -2,28 +2,57 @@
    Hoja de estilos única del sitio del Club Los Algarrobos
    ========================================================= */
 
+/* ---------- Variables de color y medidas ----------
+   Se definen una sola vez y se reutilizan en todo el archivo. */
+:root {
+  --verde-oscuro: #123d27;
+  --verde: #1f6b43;
+  --verde-claro: #2f9a5f;
+  --dorado: #e0a83e;
+  --marron: #7a5230;
+  --fondo: #f5f3ee;
+  --blanco: #ffffff;
+  --texto: #1d2420;
+  --texto-suave: #5b6660;
+  --rojo: #c0362c;
+  --radio: 18px;
+  --sombra: 0 10px 30px rgba(18, 61, 39, 0.10);
+  --sombra-fuerte: 0 20px 45px rgba(18, 61, 39, 0.20);
+}
+
 /* ---------- Estilos generales (selectores de tipo) ---------- */
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
-  color: #2b2b2b;
-  background-color: #f4efe3;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--texto);
+  background-color: var(--fondo);
 }
 
 h1,
 h2,
 h3 {
-  color: #2f6b3a;
-  line-height: 1.2;
+  margin-top: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--verde-oscuro);
+}
+
+h2 {
+  font-size: 1.7rem;
 }
 
 a {
-  color: #2f6b3a;
+  color: var(--verde);
+  font-weight: 600;
 }
 
 img {
@@ -34,15 +63,41 @@ address {
   font-style: normal;
 }
 
+/* ---------- Barra de progreso del scroll ---------- */
+#barra-progreso {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--dorado), var(--verde-claro));
+}
+
 /* ---------- Encabezado y menú ---------- */
+/* Queda pegado arriba con un fondo semitransparente y desenfocado */
 .encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px 20px;
-  background-color: #2f6b3a;
+  padding: 12px 5%;
+  background-color: rgba(245, 243, 238, 0.85);
+  backdrop-filter: blur(12px);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Clases que agrega efectos.js según el scroll */
+.encabezado-con-sombra {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.encabezado-oculto {
+  transform: translateY(-100%);
 }
 
 .marca {
@@ -52,20 +107,20 @@ address {
 }
 
 .logo {
-  width: 56px;
-  height: 56px;
+  width: 46px;
+  height: 46px;
 }
 
 .nombre-club {
   margin: 0;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--verde-oscuro);
 }
 
 .menu ul {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -73,22 +128,141 @@ address {
 
 .menu a {
   display: block;
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: var(--verde-oscuro);
   text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.menu a:hover,
+.menu a:hover {
+  background-color: rgba(31, 107, 67, 0.12);
+}
+
 .menu a.activo {
-  background-color: #3d8a4b;
+  background-color: var(--verde);
+  color: var(--blanco);
+}
+
+/* ---------- Portada (parte de arriba de cada página) ---------- */
+.portada {
+  position: relative;
+  overflow: hidden;
+  margin: 10px 5% 0 5%;
+  padding: 80px 6%;
+  border-radius: 32px;
+  background: linear-gradient(135deg, var(--verde-oscuro), var(--verde) 60%, var(--verde-claro));
+  color: var(--blanco);
+}
+
+/* Círculos decorativos de fondo */
+.portada::before,
+.portada::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.portada::before {
+  width: 420px;
+  height: 420px;
+  top: -160px;
+  right: -100px;
+}
+
+.portada::after {
+  width: 260px;
+  height: 260px;
+  bottom: -120px;
+  right: 25%;
+  background-color: rgba(224, 168, 62, 0.18);
+}
+
+.portada-contenido {
+  position: relative;
+  max-width: 720px;
+  animation: entrar 0.9s ease both;
+}
+
+.portada h1 {
+  margin-bottom: 15px;
+  font-size: 3.2rem;
+  color: var(--blanco);
+}
+
+.portada-etiqueta {
+  display: inline-block;
+  margin: 0 0 15px 0;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.15);
+  font-size: 0.9rem;
+}
+
+.portada-texto {
+  margin: 0 0 25px 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.portada-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Portada más baja para actividades y preinscripción */
+.portada-chica {
+  padding: 50px 6%;
+}
+
+.portada-chica h1 {
+  font-size: 2.6rem;
+}
+
+.portada-chica .portada-texto {
+  margin-bottom: 0;
+}
+
+/* Cifras destacadas del club */
+.cifras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  margin: 40px 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cifras li {
+  opacity: 0.85;
+}
+
+.cifras strong {
+  display: block;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--dorado);
+}
+
+/* Animación de entrada de la portada al cargar la página */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---------- Contenido principal ---------- */
 .contenedor {
-  max-width: 1100px;
+  max-width: 1150px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 /* Diseño de dos columnas: contenido + aside */
@@ -98,49 +272,146 @@ address {
   gap: 30px;
 }
 
+/* Bloques blancos con esquinas redondeadas */
+.bloque {
+  margin-bottom: 30px;
+  padding: 35px;
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
+}
+
 .lateral {
+  position: sticky;
+  top: 100px;
   align-self: start;
-  padding: 15px;
-  border-left: 4px solid #c8a25c;
-  background-color: #ffffff;
+  padding: 25px;
+  border-radius: var(--radio);
+  background-color: var(--verde-oscuro);
+  color: var(--blanco);
 }
 
 .lateral h2 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  color: var(--dorado);
+}
+
+.lateral a {
+  color: var(--dorado);
 }
 
 .imagen-ancha {
   display: block;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 14px;
 }
 
+/* Línea de tiempo de la historia */
+.linea-tiempo {
+  margin: 0;
+  padding: 0 0 0 20px;
+  border-left: 3px solid var(--dorado);
+  list-style: none;
+}
+
+.linea-tiempo li {
+  margin-bottom: 12px;
+}
+
+.linea-tiempo strong {
+  margin-right: 8px;
+  color: var(--verde);
+}
+
+/* ---------- Botones ---------- */
 .boton {
   display: inline-block;
-  padding: 10px 16px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
-  background-color: #2f6b3a;
-  color: #ffffff;
+  border-radius: 999px;
+  background-color: var(--dorado);
+  color: var(--verde-oscuro);
   font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
   text-decoration: none;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .boton:hover {
-  background-color: #3d8a4b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.boton-claro {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--blanco);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.boton-secundario {
+  background-color: var(--verde-oscuro);
+  color: var(--blanco);
+}
+
+/* Botón flotante para volver arriba (selector de ID) */
+#boton-arriba {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 150;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--verde);
+  color: var(--blanco);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--sombra-fuerte);
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#boton-arriba.mostrar {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* ---------- Efecto de aparición al scrollear ----------
+   Solo se aplica si efectos.js agregó la clase "con-efectos".
+   Por defecto el bloque está corrido hacia abajo e invisible;
+   con "desde-arriba" está corrido hacia arriba;
+   con "visible" vuelve a su lugar. */
+.con-efectos .revelar {
+  opacity: 0;
+  transform: translateY(50px) scale(0.97);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.con-efectos .revelar.desde-arriba {
+  transform: translateY(-50px) scale(0.97);
+}
+
+.con-efectos .revelar.visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------- Filtros y campos de formulario ---------- */
 .caja-filtros {
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #ffffff;
+  margin-bottom: 35px;
+  padding: 25px;
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
 }
 
 .caja-filtros h2 {
-  margin-top: 0;
   font-size: 1.2rem;
 }
 
@@ -154,77 +425,119 @@ address {
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 label {
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 input,
 select,
 textarea {
-  padding: 8px;
-  border: 1px solid #999999;
-  border-radius: 6px;
+  padding: 12px 14px;
+  border: 1.5px solid #d6d9d4;
+  border-radius: 12px;
+  background-color: #fbfbf9;
   font-size: 1rem;
   font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--verde-claro);
+  box-shadow: 0 0 0 4px rgba(47, 154, 95, 0.18);
 }
 
 /* Selector de atributo: solo los campos numéricos tienen un ancho fijo */
 input[type="number"] {
-  width: 120px;
-}
-
-.boton-secundario {
-  background-color: #7a5230;
-}
-
-.boton-secundario:hover {
-  background-color: #96673f;
+  width: 140px;
 }
 
 /* ---------- Catálogo de actividades ---------- */
+.contador {
+  color: var(--texto-suave);
+}
+
 /* Grilla de tarjetas: 3 columnas en pantallas grandes */
 #lista-actividades {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 25px;
 }
 
 .tarjeta {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 15px;
-  border-radius: 8px;
-  border-top: 6px solid #2f6b3a;
-  background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: var(--sombra);
+}
+
+/* Franja de color arriba de la tarjeta */
+.tarjeta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 25px;
+  right: 25px;
+  height: 4px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, var(--verde), var(--dorado));
+}
+
+/* Al pasar el mouse la tarjeta "flota". Se usa "translate" (y no
+   "transform") para no pisar la animación de aparición. */
+.con-efectos .tarjeta.revelar {
+  transition: opacity 0.7s ease, transform 0.7s ease, translate 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tarjeta:hover {
+  translate: 0 -8px;
+  box-shadow: var(--sombra-fuerte);
 }
 
 .tarjeta h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 8px 0;
+  font-size: 1.35rem;
 }
 
 .etiqueta-disciplina {
   align-self: flex-start;
-  margin: 0 0 10px 0;
-  padding: 2px 10px;
-  border-radius: 12px;
-  background-color: #c8a25c;
-  color: #ffffff;
-  font-size: 0.85rem;
+  margin: 0 0 15px 0;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background-color: rgba(31, 107, 67, 0.12);
+  color: var(--verde);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .datos-actividad {
   margin: 0;
-  padding-left: 18px;
+  padding: 0;
+  list-style: none;
+  color: var(--texto-suave);
+}
+
+.datos-actividad li {
+  padding: 6px 0;
+  border-bottom: 1px dashed #e3e5e0;
 }
 
 .precio {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #2f6b3a;
+  margin: 20px 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--verde-oscuro);
 }
 
 /* El botón queda siempre abajo de la tarjeta */
@@ -233,24 +546,20 @@ input[type="number"] {
   text-align: center;
 }
 
-.contador {
-  font-style: italic;
-}
-
 /* ---------- Formulario de preinscripción ---------- */
 .formulario {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 500px;
+  gap: 14px;
+  max-width: 520px;
 }
 
 /* Selector de atributo: el campo de email se destaca con un ícono de sobre */
 input[type="email"] {
-  padding-left: 30px;
+  padding-left: 38px;
   background-image: url("../img/sobre.svg");
   background-repeat: no-repeat;
-  background-position: 8px center;
+  background-position: 13px center;
   background-size: 16px 16px;
 }
 
@@ -260,41 +569,44 @@ input[type="email"] {
 }
 
 .obligatorio {
-  color: #b3261e;
+  color: var(--rojo);
 }
 
 .mensaje-error {
   min-height: 1.2em;
   margin: 0;
-  color: #b3261e;
-  font-size: 0.9rem;
+  color: var(--rojo);
+  font-size: 0.88rem;
 }
 
 .campo-invalido {
-  border: 2px solid #b3261e;
-  background-color: #fdecea;
+  border-color: var(--rojo);
+  background-color: #fdf0ee;
 }
 
 .botones-formulario {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 /* Selector de ID: caja de confirmación, hay una sola en el sitio */
 #mensaje-confirmacion {
-  max-width: 500px;
-  padding: 15px;
-  border-left: 6px solid #2f6b3a;
-  border-radius: 8px;
-  background-color: #e6f2e8;
+  max-width: 520px;
+  padding: 25px;
+  border-radius: var(--radio);
+  background: linear-gradient(135deg, #e5f4ea, #f4fbf6);
+  border: 1px solid #bfe3cb;
+  animation: entrar 0.6s ease both;
 }
 
 /* ---------- Pie de página ---------- */
 .pie {
-  padding: 15px 20px;
+  margin-top: 40px;
+  padding: 30px 20px;
   text-align: center;
-  background-color: #2b2b2b;
-  color: #ffffff;
+  background-color: var(--verde-oscuro);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* =========================================================
@@ -305,6 +617,10 @@ input[type="email"] {
 @media (max-width: 900px) {
   #lista-actividades {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portada h1 {
+    font-size: 2.5rem;
   }
 }
 
@@ -320,15 +636,38 @@ input[type="email"] {
     grid-template-columns: 1fr;
   }
 
+  .lateral {
+    position: static;
+  }
+
   /* Encabezado y menú apilados */
   .encabezado {
     flex-direction: column;
-    text-align: center;
+    padding: 10px 16px;
   }
 
-  .menu ul {
-    flex-wrap: wrap;
-    justify-content: center;
+  .menu a {
+    padding: 6px 12px;
+  }
+
+  /* Portada más compacta */
+  .portada {
+    margin: 10px 16px 0 16px;
+    padding: 45px 24px;
+    border-radius: 24px;
+  }
+
+  .portada h1,
+  .portada-chica h1 {
+    font-size: 2rem;
+  }
+
+  .cifras {
+    gap: 20px;
+  }
+
+  .bloque {
+    padding: 22px;
   }
 
   /* Filtros uno debajo del otro, ocupando todo el ancho */
@@ -339,5 +678,22 @@ input[type="email"] {
 
   input[type="number"] {
     width: 100%;
+  }
+}
+
+/* Si la persona pidió menos movimiento en su sistema, se desactivan
+   las animaciones y todo se muestra directamente. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .con-efectos .revelar,
+  .portada-contenido,
+  #mensaje-confirmacion {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
   }
 }
