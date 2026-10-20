@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club Los Algarrobos | Preinscripción</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Encabezado con logo, nombre del club y menú (igual en las 3 páginas) -->
+  <header class="encabezado">
+    <div class="marca">
+      <img src="img/logo.svg" alt="Logo del Club Los Algarrobos: un algarrobo dentro de un círculo verde" class="logo">
+      <p class="nombre-club">Club Social y Deportivo Los Algarrobos</p>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="actividades.html">Actividades</a></li>
+        <li><a href="preinscripcion.html" class="activo">Preinscripción</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="contenedor con-lateral">
+
+    <div class="contenido">
+      <h1>Preinscripción</h1>
+      <p>
+        Completá tus datos y la secretaría del club se va a comunicar con vos
+        para confirmar la inscripción. Los campos con <span class="obligatorio">*</span> son obligatorios.
+      </p>
+
+      <section id="seccion-formulario">
+        <h2>Tus datos</h2>
+
+        <!-- novalidate: la validación la hacemos nosotros con JavaScript -->
+        <form id="formulario-preinscripcion" class="formulario" novalidate>
+
+          <div class="campo">
+            <label for="nombre">Nombre y apellido <span class="obligatorio">*</span></label>
+            <input type="text" id="nombre" name="nombre" aria-describedby="error-nombre">
+            <p class="mensaje-error" id="error-nombre"></p>
+          </div>
+
+          <div class="campo">
+            <label for="dni">DNI (sin puntos) <span class="obligatorio">*</span></label>
+            <input type="text" id="dni" name="dni" inputmode="numeric" maxlength="8" placeholder="Ej: 40123456" aria-describedby="error-dni">
+            <p class="mensaje-error" id="error-dni"></p>
+          </div>
+
+          <div class="campo">
+            <label for="email">Correo electrónico <span class="obligatorio">*</span></label>
+            <input type="email" id="email" name="email" placeholder="nombre@ejemplo.com" aria-describedby="error-email">
+            <p class="mensaje-error" id="error-email"></p>
+          </div>
+
+          <div class="campo">
+            <label for="telefono">Teléfono (opcional)</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 351 555 1234">
+          </div>
+
+          <div class="campo">
+            <label for="edad">Edad de quien va a participar <span class="obligatorio">*</span></label>
+            <input type="number" id="edad" name="edad" min="1" max="99" aria-describedby="error-edad">
+            <p class="mensaje-error" id="error-edad"></p>
+          </div>
+
+          <div class="campo">
+            <label for="actividad">Actividad <span class="obligatorio">*</span></label>
+            <select id="actividad" name="actividad" aria-describedby="error-actividad">
+              <option value="">Elegí una actividad</option>
+              <!-- Las opciones se cargan con JavaScript desde datos.js -->
+            </select>
+            <p class="mensaje-error" id="error-actividad"></p>
+          </div>
+
+          <div class="campo">
+            <label for="comentarios">Comentarios (opcional)</label>
+            <textarea id="comentarios" name="comentarios" rows="3"></textarea>
+          </div>
+
+          <div class="botones-formulario">
+            <button type="submit" class="boton">Enviar preinscripción</button>
+            <button type="button" id="boton-volver" class="boton boton-secundario">Volver</button>
+          </div>
+        </form>
+
+        <!-- Mensaje que aparece cuando el formulario es válido -->
+        <div id="mensaje-confirmacion" hidden>
+          <h3>¡Preinscripción recibida!</h3>
+          <p id="texto-confirmacion"></p>
+          <button type="button" id="boton-otra" class="boton">Hacer otra preinscripción</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Requisitos para completar la inscripción en el club -->
+    <aside class="lateral">
+      <h2>Para tener en cuenta</h2>
+      <ul>
+        <li>La preinscripción no garantiza el lugar: depende del cupo de cada actividad.</li>
+        <li>Para confirmar hay que presentar DNI y apto físico en secretaría.</li>
+        <li>Los menores de 18 años se inscriben con un adulto responsable.</li>
+      </ul>
+      <p><a href="actividades.html">Ver horarios y cuotas</a></p>
+    </aside>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="pie">
+    <p>&copy; 2026 Club Social y Deportivo Los Algarrobos — Córdoba, Argentina.</p>
+  </footer>
+
+  <!-- Primero los datos (clase y arreglo), después la lógica del formulario -->
+  <script src="js/datos.js"></script>
+  <script src="js/preinscripcion.js"></script>
+</body>
+</html>

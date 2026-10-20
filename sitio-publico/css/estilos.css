@@ -237,6 +237,58 @@ input[type="number"] {
   font-style: italic;
 }
 
+/* ---------- Formulario de preinscripción ---------- */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+}
+
+/* Selector de atributo: el campo de email se destaca con un ícono de sobre */
+input[type="email"] {
+  padding-left: 30px;
+  background-image: url("../img/sobre.svg");
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  background-size: 16px 16px;
+}
+
+/* Selector de atributo: asegura que lo que tiene "hidden" no se vea */
+[hidden] {
+  display: none !important;
+}
+
+.obligatorio {
+  color: #b3261e;
+}
+
+.mensaje-error {
+  min-height: 1.2em;
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.9rem;
+}
+
+.campo-invalido {
+  border: 2px solid #b3261e;
+  background-color: #fdecea;
+}
+
+.botones-formulario {
+  display: flex;
+  gap: 10px;
+}
+
+/* Selector de ID: caja de confirmación, hay una sola en el sitio */
+#mensaje-confirmacion {
+  max-width: 500px;
+  padding: 15px;
+  border-left: 6px solid #2f6b3a;
+  border-radius: 8px;
+  background-color: #e6f2e8;
+}
+
 /* ---------- Pie de página ---------- */
 .pie {
   padding: 15px 20px;
