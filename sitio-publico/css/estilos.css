@@ -282,8 +282,6 @@ address {
 }
 
 .lateral {
-  position: sticky;
-  top: 100px;
   align-self: start;
   padding: 25px;
   border-radius: var(--radio);
@@ -634,10 +632,6 @@ input[type="email"] {
   /* El aside baja debajo del contenido principal */
   .con-lateral {
     grid-template-columns: 1fr;
-  }
-
-  .lateral {
-    position: static;
   }
 
   /* Encabezado y menú apilados */
