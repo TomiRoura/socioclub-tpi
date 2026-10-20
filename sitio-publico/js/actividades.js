@@ -1,12 +1,15 @@
 // =========================================================
 // actividades.js
 // Dibuja el catálogo de actividades a partir de listaActividades
-// (definida en datos.js).
+// (definida en datos.js) y lo filtra por disciplina y edad.
 // =========================================================
 
 // ---------- Referencias a elementos del HTML ----------
 const contenedorLista = document.getElementById("lista-actividades");
 const textoContador = document.getElementById("contador-resultados");
+const selectDisciplina = document.getElementById("filtro-disciplina");
+const inputEdad = document.getElementById("filtro-edad");
+const botonLimpiar = document.getElementById("boton-limpiar");
 
 // ---------- Función auxiliar ----------
 // Crea un elemento con una clase y un texto (para no repetir código).
@@ -68,6 +71,66 @@ function dibujarActividades(actividades) {
   }
 }
 
+// ---------- Cargar opciones del select ----------
+// Agrega una opción por cada disciplina, sin repetir.
+function cargarDisciplinas() {
+  const disciplinas = [];
+
+  for (const actividad of listaActividades) {
+    if (!disciplinas.includes(actividad.disciplina)) {
+      disciplinas.push(actividad.disciplina);
+    }
+  }
+
+  for (const disciplina of disciplinas) {
+    const opcion = document.createElement("option");
+    opcion.value = disciplina;
+    opcion.textContent = disciplina;
+    selectDisciplina.appendChild(opcion);
+  }
+}
+
+// ---------- Aplicar filtros ----------
+// Lee los dos filtros, arma un arreglo nuevo con las actividades que
+// cumplen ambos y redibuja la lista.
+function aplicarFiltros() {
+  const disciplinaElegida = selectDisciplina.value;
+  const textoEdad = inputEdad.value;
+  const edad = Number(textoEdad);
+
+  const actividadesFiltradas = [];
+
+  for (const actividad of listaActividades) {
+    // Filtro por disciplina ("todas" significa que no se filtra)
+    const cumpleDisciplina = disciplinaElegida === "todas" || actividad.disciplina === disciplinaElegida;
+
+    // Filtro por edad (si el campo está vacío no se filtra)
+    const cumpleEdad = textoEdad === "" || actividad.esAptaParaEdad(edad);
+
+    if (cumpleDisciplina && cumpleEdad) {
+      actividadesFiltradas.push(actividad);
+    }
+  }
+
+  dibujarActividades(actividadesFiltradas);
+}
+
+// ---------- Limpiar filtros ----------
+// Vuelve los filtros a su valor inicial y muestra todo.
+function limpiarFiltros() {
+  selectDisciplina.value = "todas";
+  inputEdad.value = "";
+  aplicarFiltros();
+}
+
+// ---------- Eventos ----------
+// "change" se dispara al elegir otra opción del select.
+// "input" se dispara cada vez que se escribe o borra un número.
+selectDisciplina.addEventListener("change", aplicarFiltros);
+inputEdad.addEventListener("input", aplicarFiltros);
+botonLimpiar.addEventListener("click", limpiarFiltros);
+
 // ---------- Inicio ----------
-// Al cargar la página se muestran todas las actividades.
+// Al cargar la página se llenan las disciplinas y se muestran todas las actividades.
+cargarDisciplinas();
 dibujarActividades(listaActividades);

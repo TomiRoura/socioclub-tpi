@@ -131,6 +131,59 @@ address {
   background-color: #3d8a4b;
 }
 
+/* ---------- Filtros y campos de formulario ---------- */
+.caja-filtros {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.caja-filtros h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.fila-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  padding: 8px;
+  border: 1px solid #999999;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+/* Selector de atributo: solo los campos numéricos tienen un ancho fijo */
+input[type="number"] {
+  width: 120px;
+}
+
+.boton-secundario {
+  background-color: #7a5230;
+}
+
+.boton-secundario:hover {
+  background-color: #96673f;
+}
+
 /* ---------- Catálogo de actividades ---------- */
 /* Grilla de tarjetas: 3 columnas en pantallas grandes */
 #lista-actividades {

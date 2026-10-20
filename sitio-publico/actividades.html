@@ -27,6 +27,27 @@
     <h1>Actividades del club</h1>
     <p>Conocé los horarios, edades y cuotas mensuales de cada actividad.</p>
 
+    <!-- Filtros: al cambiarlos, js/actividades.js redibuja la lista -->
+    <section id="filtros" class="caja-filtros">
+      <h2>Buscar actividades</h2>
+      <div class="fila-filtros">
+        <div class="campo">
+          <label for="filtro-disciplina">Disciplina</label>
+          <select id="filtro-disciplina">
+            <option value="todas">Todas las disciplinas</option>
+            <!-- Las demás opciones se cargan con JavaScript -->
+          </select>
+        </div>
+        <div class="campo">
+          <label for="filtro-edad">Edad de quien va a participar</label>
+          <input type="number" id="filtro-edad" min="1" max="99" placeholder="Ej: 10">
+        </div>
+        <div class="campo">
+          <button type="button" id="boton-limpiar" class="boton boton-secundario">Limpiar filtros</button>
+        </div>
+      </div>
+    </section>
+
     <!-- Catálogo: las tarjetas se agregan desde js/actividades.js -->
     <section id="catalogo">
       <h2>Catálogo</h2>
