@@ -296,3 +296,48 @@ input[type="email"] {
   background-color: #2b2b2b;
   color: #ffffff;
 }
+
+/* =========================================================
+   Diseño adaptable (media queries)
+   ========================================================= */
+
+/* Tablet: las tarjetas pasan a 2 columnas */
+@media (max-width: 900px) {
+  #lista-actividades {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Celular: todo en una sola columna */
+@media (max-width: 600px) {
+  /* Tarjetas de actividades una debajo de la otra */
+  #lista-actividades {
+    grid-template-columns: 1fr;
+  }
+
+  /* El aside baja debajo del contenido principal */
+  .con-lateral {
+    grid-template-columns: 1fr;
+  }
+
+  /* Encabezado y menú apilados */
+  .encabezado {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .menu ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Filtros uno debajo del otro, ocupando todo el ancho */
+  .fila-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="number"] {
+    width: 100%;
+  }
+}
