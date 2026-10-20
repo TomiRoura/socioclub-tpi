@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club Los Algarrobos | Actividades</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Encabezado con logo, nombre del club y menú (igual en las 3 páginas) -->
+  <header class="encabezado">
+    <div class="marca">
+      <img src="img/logo.svg" alt="Logo del Club Los Algarrobos: un algarrobo dentro de un círculo verde" class="logo">
+      <p class="nombre-club">Club Social y Deportivo Los Algarrobos</p>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="actividades.html" class="activo">Actividades</a></li>
+        <li><a href="preinscripcion.html">Preinscripción</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="contenedor">
+    <h1>Actividades del club</h1>
+    <p>Conocé los horarios, edades y cuotas mensuales de cada actividad.</p>
+
+    <!-- Catálogo: las tarjetas se agregan desde js/actividades.js -->
+    <section id="catalogo">
+      <h2>Catálogo</h2>
+      <p id="contador-resultados" class="contador"></p>
+      <div id="lista-actividades" class="grilla-tarjetas">
+        <!-- Acá se insertan las tarjetas con JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="pie">
+    <p>&copy; 2026 Club Social y Deportivo Los Algarrobos — Córdoba, Argentina.</p>
+  </footer>
+
+  <!-- Primero los datos (clase y arreglo), después la lógica de la página -->
+  <script src="js/datos.js"></script>
+  <script src="js/actividades.js"></script>
+</body>
+</html>
