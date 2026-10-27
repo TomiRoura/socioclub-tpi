@@ -12,7 +12,9 @@ function App() {
   return (
     // El provider envuelve todo: cualquier componente de adentro puede leer el socio con useSocio().
     <SocioProvider>
-      <BrowserRouter>
+      {/* future: activa ya dos comportamientos de React Router 7 para que la consola no muestre avisos.
+          No cambia nada de lo que usa esta app. */}
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Encabezado />
         <main className="contenido">
           <Routes>
