@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { calcularCuotaMensual, obtenerPorcentajeDescuento, sumarCuotas } from '../utils/cuota';
 import { formatearPesos } from '../utils/formato';
+import './ResumenCuota.css';
 
 // RN6: muestra la cuota mensual estimada de las actividades que recibe.
 // No tiene estado: todo se calcula a partir de las props en cada render.

@@ -1,0 +1,50 @@
+/* Lista a la izquierda y resumen de cuota a la derecha; en celular, uno abajo del otro */
+.mis-actividades {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .mis-actividades {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mis-actividades__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inscripcion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 16px 20px;
+  background: var(--blanco);
+  border-left: 6px solid var(--verde-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.inscripcion__datos {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inscripcion__fecha {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.inscripcion__cuota {
+  font-weight: 700;
+}

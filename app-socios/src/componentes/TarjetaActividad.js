@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatearPesos } from '../utils/formato';
+import './TarjetaActividad.css';
 
 // Componente de presentación: solo muestra la actividad que recibe por props.
 // No llama a la API: cuando se hace clic en "Inscribirme" le avisa al padre con onInscribir.

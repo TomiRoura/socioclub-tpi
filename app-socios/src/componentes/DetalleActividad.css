@@ -1,0 +1,44 @@
+.detalle {
+  max-width: 640px;
+  padding: 28px;
+  background: var(--blanco);
+  border-top: 6px solid var(--verde-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+/* Clase dinámica: la agrega DetalleActividad.js cuando no hay cupo */
+.detalle--sin-cupo {
+  border-top-color: var(--gris);
+}
+
+.detalle__volver {
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.detalle__disciplina {
+  display: block;
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Lista de datos en dos columnas: nombre del dato | valor */
+.detalle__datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 20px;
+  margin: 0 0 20px;
+}
+
+.detalle__datos dt {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.detalle__datos dd {
+  margin: 0;
+}

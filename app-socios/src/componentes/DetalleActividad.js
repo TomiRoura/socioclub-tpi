@@ -4,6 +4,7 @@ import { useSocio } from '../contexto/SocioContext';
 import { inscribir, obtenerActividad } from '../servicios/api';
 import { formatearPesos } from '../utils/formato';
 import Mensaje from './Mensaje';
+import './DetalleActividad.css';
 
 function DetalleActividad() {
   const { id } = useParams(); // el :id de la ruta /actividades/:id (llega como texto)

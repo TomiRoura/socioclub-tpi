@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSocio } from '../contexto/SocioContext';
+import './Encabezado.css';
 
 function Encabezado() {
   const { socio, salir } = useSocio();

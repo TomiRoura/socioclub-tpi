@@ -1,3 +1,5 @@
+import './Pie.css';
+
 function Pie() {
   return (
     <footer className="pie">

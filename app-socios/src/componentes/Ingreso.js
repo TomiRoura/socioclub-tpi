@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useSocio } from '../contexto/SocioContext';
 import { buscarSocioPorDni } from '../servicios/api';
 import { esDniValido } from '../utils/dni';
+import './Ingreso.css';
 
 function Ingreso() {
   const [dni, setDni] = useState('');

@@ -5,6 +5,7 @@ import { darDeBaja, listarInscripcionesActivas } from '../servicios/api';
 import { formatearFecha, formatearPesos } from '../utils/formato';
 import Mensaje from './Mensaje';
 import ResumenCuota from './ResumenCuota';
+import './MisActividades.css';
 
 function MisActividades() {
   const { socio } = useSocio();

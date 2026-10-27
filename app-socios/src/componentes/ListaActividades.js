@@ -4,6 +4,7 @@ import { inscribir, listarActividades } from '../servicios/api';
 import { DISCIPLINAS } from '../utils/constantes';
 import TarjetaActividad from './TarjetaActividad';
 import Mensaje from './Mensaje';
+import './ListaActividades.css';
 
 function ListaActividades() {
   const { socio } = useSocio();
