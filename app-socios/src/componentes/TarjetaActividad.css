@@ -1,0 +1,61 @@
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  background: var(--blanco);
+  border-top: 6px solid var(--verde-claro);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+/* Clase dinámica: la agrega TarjetaActividad.js cuando cupoDisponible === 0 */
+.tarjeta--sin-cupo {
+  border-top-color: var(--gris);
+  background: #f1f0ec;
+  filter: grayscale(1);
+  opacity: 0.8;
+}
+
+.tarjeta__disciplina {
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tarjeta__nombre {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.tarjeta__nombre a {
+  color: var(--verde-oscuro);
+  text-decoration: none;
+}
+
+.tarjeta__nombre a:hover {
+  text-decoration: underline;
+}
+
+.tarjeta__horario,
+.tarjeta__cuota {
+  margin: 0;
+}
+
+.tarjeta__cuota {
+  font-weight: 700;
+}
+
+.tarjeta .etiqueta {
+  align-self: flex-start;
+}
+
+.tarjeta__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+}
