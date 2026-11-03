@@ -1,0 +1,1253 @@
+{
+  "info": {
+    "name": "SocioClub API",
+    "description": "Endpoints del Anexo A con casos exitosos y de error. Antes de correr la colección entera, recargar la base con backend/sql/socioclub.sql (los casos dependen de los datos iniciales).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Actividades",
+      "item": [
+        {
+          "name": "Listar actividades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Trae las 8 actividades con cupoDisponible', function () {",
+                  "    const lista = pm.response.json();",
+                  "    pm.expect(lista.length).to.be.at.least(8);",
+                  "    pm.expect(lista[0]).to.have.property('cupoDisponible');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar por disciplina (Fútbol)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades?disciplina=Fútbol",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades"
+              ],
+              "query": [
+                {
+                  "key": "disciplina",
+                  "value": "Fútbol"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Solo trae Fútbol', function () {",
+                  "    const lista = pm.response.json();",
+                  "    pm.expect(lista.length).to.eql(1);",
+                  "    pm.expect(lista[0].disciplina).to.eql('Fútbol');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de una actividad (Ajedrez)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "6"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Ajedrez tiene 1 lugar libre al cargar la base', function () {",
+                  "    pm.expect(pm.response.json().cupoDisponible).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Detalle de actividad inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "999"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear actividad (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actividades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Hockey recreativo\",\n  \"disciplina\": \"Fitness\",\n  \"profesor\": \"Julieta Sánchez\",\n  \"dias\": \"Sáb\",\n  \"horario\": \"11:00\",\n  \"edadMinima\": 10,\n  \"edadMaxima\": 40,\n  \"cupoMaximo\": 20,\n  \"cuotaMensual\": 15000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test('Devuelve la actividad con id', function () {",
+                  "    const creada = pm.response.json();",
+                  "    pm.expect(creada.id).to.be.a('number');",
+                  "    pm.expect(creada.cupoDisponible).to.eql(20);",
+                  "    pm.collectionVariables.set('actividadNuevaId', creada.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar actividad (200)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/{{actividadNuevaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "{{actividadNuevaId}}"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Hockey recreativo\",\n  \"disciplina\": \"Fitness\",\n  \"profesor\": \"Julieta Sánchez\",\n  \"dias\": \"Sáb\",\n  \"horario\": \"12:00\",\n  \"edadMinima\": 10,\n  \"edadMaxima\": 40,\n  \"cupoMaximo\": 20,\n  \"cuotaMensual\": 16000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Cambió el horario', function () {",
+                  "    pm.expect(pm.response.json().horario).to.eql('12:00');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar actividad inexistente (404)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "999"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Hockey recreativo\",\n  \"disciplina\": \"Fitness\",\n  \"profesor\": \"Julieta Sánchez\",\n  \"dias\": \"Sáb\",\n  \"horario\": \"12:00\",\n  \"edadMinima\": 10,\n  \"edadMaxima\": 40,\n  \"cupoMaximo\": 20,\n  \"cuotaMensual\": 16000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear actividad con datos inválidos (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actividades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Hockey recreativo\",\n  \"disciplina\": \"Fitness\",\n  \"profesor\": \"Julieta Sánchez\",\n  \"dias\": \"Sáb\",\n  \"horario\": \"11:00\",\n  \"edadMinima\": 50,\n  \"edadMaxima\": 10,\n  \"cupoMaximo\": 20,\n  \"cuotaMensual\": 15000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar actividad con inscriptos activos (409)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "1"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Explica por qué no se puede', function () {",
+                  "    pm.expect(pm.response.json().error).to.include('inscriptos activos');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar actividad sin inscriptos (204)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/{{actividadNuevaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "{{actividadNuevaId}}"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 204', function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar actividad inexistente (404)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actividades/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actividades",
+                "999"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Socios",
+      "item": [
+        {
+          "name": "Buscar socio por DNI (200)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/socios/dni/40123456",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socios",
+                "dni",
+                "40123456"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Es Lucía Fernández, al día', function () {",
+                  "    const socio = pm.response.json();",
+                  "    pm.expect(socio.apellido).to.eql('Fernández');",
+                  "    pm.expect(socio.estadoCuota).to.eql('AL_DIA');",
+                  "    pm.expect(socio).to.not.have.property('inscripciones');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar socio con DNI inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/socios/dni/12345678",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socios",
+                "dni",
+                "12345678"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inscripciones activas de un socio (Marta)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/socios/3/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socios",
+                "3",
+                "inscripciones"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Marta tiene 3 activas, cada una con su actividad y sin el socio', function () {",
+                  "    const lista = pm.response.json();",
+                  "    pm.expect(lista.length).to.eql(3);",
+                  "    pm.expect(lista[0]).to.have.property('actividad');",
+                  "    pm.expect(lista[0]).to.not.have.property('socio');",
+                  "    pm.expect(lista[0].fechaInscripcion).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inscripciones de un socio inexistente (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/socios/999/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socios",
+                "999",
+                "inscripciones"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Inscripciones",
+      "item": [
+        {
+          "name": "Inscripción exitosa: Lucía en Ajedrez (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "Lucía toma el último lugar de Ajedrez.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 1,\n  \"actividadId\": 6\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test('Trae la actividad con el cupo ya descontado', function () {",
+                  "    const nueva = pm.response.json();",
+                  "    pm.expect(nueva.estado).to.eql('ACTIVA');",
+                  "    pm.expect(nueva.actividad.cupoDisponible).to.eql(0);",
+                  "    pm.collectionVariables.set('inscripcionId', nueva.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN1 sin cupo: Camila en Yoga (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 10,\n  \"actividadId\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN1', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN1');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN2 duplicado: Mateo en Fútbol (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 2,\n  \"actividadId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN2', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN2');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN3 edad: Emma (8 años) en Vóley (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 8,\n  \"actividadId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN3', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN3');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN3 edad: Tomás (15 años) en Fútbol infantil (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 7,\n  \"actividadId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN3', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN3');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN4 moroso: Jorge en Natación (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 4,\n  \"actividadId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN4', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN4');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "RN5 máximo: Sergio en Natación (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 6,\n  \"actividadId\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN5', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN5');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ejemplo del Anexo A { socioId 3, actividadId 1 } (409 RN5)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "Marta incumple RN5 y RN3 a la vez: con el orden RN4, RN2, RN5, RN3, RN1 responde RN5.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 3,\n  \"actividadId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test('Trae el error y la regla RN5', function () {",
+                  "    const cuerpo = pm.response.json();",
+                  "    pm.expect(cuerpo.error).to.be.a('string');",
+                  "    pm.expect(cuerpo.regla).to.eql('RN5');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inscribir socio inexistente (404)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 999,\n  \"actividadId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inscribir en actividad inexistente (404)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 1,\n  \"actividadId\": 999\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dar de baja (200)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones/{{inscripcionId}}/baja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones",
+                "{{inscripcionId}}",
+                "baja"
+              ]
+            },
+            "description": "Da de baja la inscripción creada en 'Inscripción exitosa'."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Queda en BAJA y se libera el cupo', function () {",
+                  "    const inscripcion = pm.response.json();",
+                  "    pm.expect(inscripcion.estado).to.eql('BAJA');",
+                  "    pm.expect(inscripcion.actividad.cupoDisponible).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Un moroso puede darse de baja: Jorge de Funcional (200)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones/7/baja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones",
+                "7",
+                "baja"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reinscripción después de una baja: Lucía en Vóley (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones"
+              ]
+            },
+            "description": "Lucía tenía una inscripción en BAJA en Vóley: la baja lógica no bloquea volver.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"socioId\": 1,\n  \"actividadId\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dar de baja una inscripción inexistente (404)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inscripciones/9999/baja",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripciones",
+                "9999",
+                "baja"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Trae el mensaje de error', function () {",
+                  "    pm.expect(pm.response.json().error).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
+    },
+    {
+      "key": "actividadNuevaId",
+      "value": ""
+    },
+    {
+      "key": "inscripcionId",
+      "value": ""
+    }
+  ]
+}
