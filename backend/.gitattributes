@@ -1,0 +1,3 @@
+# Los .cmd de Windows necesitan fin de línea CRLF; el mvnw de sh, LF.
+*.cmd text eol=crlf
+mvnw text eol=lf

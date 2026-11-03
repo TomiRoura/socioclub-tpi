@@ -1,0 +1,24 @@
+#!/bin/sh
+# Maven Wrapper simple (Git Bash, Linux o macOS): la primera vez descarga Maven en
+# ~/.m2/wrapper y despues lo reutiliza. Requiere Java 17 o mas nuevo.
+# Uso, parados en la carpeta backend:   ./mvnw spring-boot:run
+set -e
+MAVEN_VERSION=3.9.11
+WRAPPER_DIR="$HOME/.m2/wrapper"
+MAVEN_DIR="$WRAPPER_DIR/apache-maven-$MAVEN_VERSION"
+
+if [ ! -f "$MAVEN_DIR/bin/mvn" ]; then
+  echo "Descargando Maven $MAVEN_VERSION (solo la primera vez)..."
+  mkdir -p "$WRAPPER_DIR"
+  URL="https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/$MAVEN_VERSION/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+  ARCHIVO="$WRAPPER_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "$URL" -o "$ARCHIVO"
+  else
+    wget -q "$URL" -O "$ARCHIVO"
+  fi
+  tar -xzf "$ARCHIVO" -C "$WRAPPER_DIR"
+  rm -f "$ARCHIVO"
+fi
+
+exec sh "$MAVEN_DIR/bin/mvn" "$@"
