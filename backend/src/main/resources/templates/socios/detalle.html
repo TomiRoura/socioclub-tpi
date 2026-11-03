@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Socio')}"></head>
+<body>
+<header th:replace="~{fragmentos :: encabezado('socios')}"></header>
+
+<main class="contenedor">
+    <p class="migas"><a th:href="@{/socios}">Socios</a> / Ficha</p>
+    <div class="titulo-con-accion">
+        <h1 th:text="${socio.nombre} + ' ' + ${socio.apellido}">Marta Gómez</h1>
+        <div class="botones">
+            <a class="boton boton--secundario" th:href="@{/socios/{id}/editar(id=${socio.id})}">Editar datos</a>
+            <a class="boton" th:href="@{/inscripciones/nueva(socioId=${socio.id})}">+ Inscribir</a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragmentos :: mensajes}"></div>
+
+    <p class="aviso aviso--error" th:if="${socio.estadoCuota.name() == 'MOROSO'}">
+        Cuota impaga: no puede inscribirse a nuevas actividades hasta regularizarla (RN4).
+        Sí puede darse de baja.
+    </p>
+
+    <section class="ficha">
+        <p><span>DNI</span><strong th:text="${socio.dni}">9876543</strong></p>
+        <p><span>Edad</span><strong th:text="${edad} + ' años'">68 años</strong></p>
+        <p><span>Nacimiento</span><strong th:text="${#temporals.format(socio.fechaNacimiento, 'dd/MM/yyyy')}">20/02/1958</strong></p>
+        <p><span>Email</span><strong th:text="${socio.email} ?: '-'">marta@mail.com</strong></p>
+        <p><span>Teléfono</span><strong th:text="${socio.telefono} ?: '-'">351</strong></p>
+        <p><span>Cuota</span>
+            <strong th:if="${socio.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--alerta">Moroso</strong>
+            <strong th:unless="${socio.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--ok">Al día</strong>
+        </p>
+    </section>
+
+    <h2 th:text="'Actividades activas (' + ${#lists.size(inscripciones)} + ' de ' + ${maxActividades} + ')'">Actividades activas</h2>
+
+    <p th:if="${#lists.isEmpty(inscripciones)}" class="vacio">No está inscripto en ninguna actividad.</p>
+
+    <div class="tabla-contenedor" th:unless="${#lists.isEmpty(inscripciones)}">
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Actividad</th>
+                <th>Días y horario</th>
+                <th>Inscripto desde</th>
+                <th class="num">Cuota</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="i : ${inscripciones}">
+                <td><a th:href="@{/actividades/{id}/inscriptos(id=${i.actividad.id})}" th:text="${i.actividad.nombre}">Yoga</a></td>
+                <td th:text="${i.actividad.dias} + ' ' + ${i.actividad.horario}">Mar y Jue 9:00</td>
+                <td th:text="${#temporals.format(i.fechaInscripcion, 'dd/MM/yyyy')}">01/03/2026</td>
+                <td class="num" th:text="'$ ' + ${#numbers.formatInteger(i.actividad.cuotaMensual, 1, 'POINT')}">$ 17.000</td>
+                <td>
+                    <form th:action="@{/inscripciones/{id}/baja(id=${i.id})}" method="post"
+                          onsubmit="return confirm('¿Dar de baja esta inscripción?');">
+                        <input type="hidden" name="volver" value="socio">
+                        <button type="submit" class="enlace enlace--peligro">Dar de baja</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3">
+                    Cuota mensual estimada
+                    <small th:if="${descuento > 0}" th:text="'(' + ${descuento} + ' % de descuento)'">(15 % de descuento)</small>
+                </td>
+                <td class="num"><strong th:text="'$ ' + ${#numbers.formatInteger(cuota, 1, 'POINT')}">$ 44.200</strong></td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Inicio')}"></head>
+<body>
+<header th:replace="~{fragmentos :: encabezado('inicio')}"></header>
+
+<main class="contenedor">
+    <h1>Secretaría</h1>
+    <p class="bajada">Gestión de socios, actividades e inscripciones del club.</p>
+
+    <section class="resumen">
+        <article class="dato">
+            <span class="dato__numero" th:text="${inscriptosActivos}">0</span>
+            <span class="dato__texto">inscripciones activas</span>
+        </article>
+        <article class="dato">
+            <span class="dato__numero" th:text="${lugaresLibres}">0</span>
+            <span class="dato__texto">lugares libres</span>
+        </article>
+        <article class="dato">
+            <span class="dato__numero" th:text="${sinCupo}">0</span>
+            <span class="dato__texto">actividades sin cupo</span>
+        </article>
+    </section>
+
+    <section class="accesos">
+        <a class="acceso" th:href="@{/socios/nuevo}">+ Nuevo socio</a>
+        <a class="acceso" th:href="@{/inscripciones/nueva}">+ Nueva inscripción</a>
+        <a class="acceso" th:href="@{/actividades/nueva}">+ Nueva actividad</a>
+    </section>
+
+    <h2>Ocupación por actividad</h2>
+    <div class="tabla-contenedor">
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Actividad</th>
+                <th>Ocupación</th>
+                <th class="num">Libres</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${actividades}">
+                <td><a th:href="@{/actividades/{id}/inscriptos(id=${a.id})}" th:text="${a.nombre}">Fútbol</a></td>
+                <td>
+                    <div class="barra">
+                        <div class="barra__relleno"
+                             th:classappend="${a.cupoDisponible == 0} ? 'barra__relleno--lleno'"
+                             th:style="'width:' + ${(a.cupoMaximo - a.cupoDisponible) * 100 / a.cupoMaximo} + '%'"></div>
+                    </div>
+                    <small th:text="${a.cupoMaximo - a.cupoDisponible} + ' de ' + ${a.cupoMaximo}">4 de 40</small>
+                </td>
+                <td class="num">
+                    <span th:if="${a.cupoDisponible > 0}" th:text="${a.cupoDisponible}">36</span>
+                    <span th:if="${a.cupoDisponible == 0}" class="etiqueta etiqueta--alerta">Sin cupo</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

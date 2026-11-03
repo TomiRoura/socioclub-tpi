@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Error')}"></head>
+<body>
+<header th:replace="~{fragmentos :: encabezado('')}"></header>
+
+<!-- La usan ManejadorErroresVistas (mensaje) y la página de error de Spring Boot (status, error). -->
+<main class="contenedor contenedor--angosto">
+    <h1 th:text="${status == 404} ? 'No encontrado' : 'Ocurrió un error'">Ocurrió un error</h1>
+    <p class="aviso aviso--error" th:text="${mensaje} ?: (${error} ?: 'Error inesperado')">Error</p>
+    <a class="boton" th:href="@{/}">Volver al inicio</a>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

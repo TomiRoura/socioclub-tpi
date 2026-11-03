@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!--
+  Fragmentos reutilizables: todas las pantallas incluyen el mismo <head>, encabezado, mensajes y pie.
+  Se usan con th:replace="~{fragmentos :: nombre}".
+-->
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' · Secretaría Los Algarrobos'">Secretaría</title>
+    <link rel="stylesheet" th:href="@{/css/secretaria.css}">
+</head>
+<body>
+
+<header th:fragment="encabezado(seccion)" class="encabezado">
+    <div class="encabezado__contenido">
+        <a th:href="@{/}" class="marca">
+            <span class="marca__escudo">LA</span>
+            <span>
+                <strong>Club Los Algarrobos</strong>
+                <small>Secretaría · SocioClub</small>
+            </span>
+        </a>
+        <nav class="menu">
+            <a th:href="@{/}" th:classappend="${seccion == 'inicio'} ? 'activo'">Inicio</a>
+            <a th:href="@{/actividades}" th:classappend="${seccion == 'actividades'} ? 'activo'">Actividades</a>
+            <a th:href="@{/socios}" th:classappend="${seccion == 'socios'} ? 'activo'">Socios</a>
+            <a th:href="@{/inscripciones/nueva}" th:classappend="${seccion == 'inscripciones'} ? 'activo'">Inscribir</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Mensajes de éxito y de error (los "flash" sobreviven a un redirect). -->
+<div th:fragment="mensajes">
+    <p class="aviso aviso--exito" th:if="${exito}" th:text="${exito}">Operación realizada</p>
+    <p class="aviso aviso--error" th:if="${error}">
+        <span th:text="${error}">Error</span>
+        <strong th:if="${regla}" th:text="'(' + ${regla} + ')'">(RN1)</strong>
+    </p>
+</div>
+
+<footer th:fragment="pie" class="pie">
+    <p>Club Social y Deportivo Los Algarrobos · Córdoba · Sistema interno de secretaría</p>
+</footer>
+
+</body>
+</html>

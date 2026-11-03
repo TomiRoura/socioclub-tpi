@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head(${socio.id == null ? 'Nuevo socio' : 'Editar socio'})}"></head>
+<body>
+<header th:replace="~{fragmentos :: encabezado('socios')}"></header>
+
+<main class="contenedor contenedor--angosto">
+    <h1 th:text="${socio.id == null} ? 'Nuevo socio' : 'Editar socio'">Nuevo socio</h1>
+
+    <div th:replace="~{fragmentos :: mensajes}"></div>
+
+    <form class="formulario" th:action="@{/socios/guardar}" th:object="${socio}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="campo">
+            <label for="dni">DNI (7 u 8 dígitos, sin puntos)</label>
+            <input type="text" th:field="*{dni}" inputmode="numeric" pattern="\d{7,8}" maxlength="8" required>
+        </div>
+
+        <div class="fila-campos">
+            <div class="campo">
+                <label for="nombre">Nombre</label>
+                <input type="text" th:field="*{nombre}" maxlength="50" required>
+            </div>
+            <div class="campo">
+                <label for="apellido">Apellido</label>
+                <input type="text" th:field="*{apellido}" maxlength="50" required>
+            </div>
+        </div>
+
+        <div class="fila-campos">
+            <div class="campo">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input type="date" th:field="*{fechaNacimiento}" required>
+            </div>
+            <div class="campo">
+                <!-- Se manda siempre: si faltara, el socio perdería el estado MOROSO al editarlo. -->
+                <label for="estadoCuota">Estado de la cuota</label>
+                <select th:field="*{estadoCuota}">
+                    <option th:each="e : ${estadosCuota}" th:value="${e}"
+                            th:text="${e.name() == 'MOROSO'} ? 'Moroso' : 'Al día'">Al día</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="fila-campos">
+            <div class="campo">
+                <label for="email">Email</label>
+                <input type="email" th:field="*{email}" maxlength="100">
+            </div>
+            <div class="campo">
+                <label for="telefono">Teléfono</label>
+                <input type="text" th:field="*{telefono}" maxlength="20">
+            </div>
+        </div>
+
+        <div class="botones">
+            <button type="submit" class="boton">Guardar</button>
+            <a class="boton boton--secundario" th:href="@{/socios}">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

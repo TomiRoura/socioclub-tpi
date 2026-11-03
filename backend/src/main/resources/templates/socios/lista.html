@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Socios')}"></head>
+<body>
+<header th:replace="~{fragmentos :: encabezado('socios')}"></header>
+
+<main class="contenedor">
+    <div class="titulo-con-accion">
+        <h1>Socios</h1>
+        <a class="boton" th:href="@{/socios/nuevo}">+ Nuevo socio</a>
+    </div>
+
+    <div th:replace="~{fragmentos :: mensajes}"></div>
+
+    <form class="filtros" th:action="@{/socios}" method="get">
+        <label for="apellido">Buscar por apellido</label>
+        <input type="search" id="apellido" name="apellido" th:value="${apellido}" placeholder="Ej.: gomez">
+        <button type="submit" class="boton boton--secundario">Buscar</button>
+        <a th:if="${!#strings.isEmpty(apellido)}" th:href="@{/socios}">Limpiar</a>
+    </form>
+
+    <!-- socios es un Page<Socio>: trae el contenido de la página y los datos de paginación. -->
+    <p class="resultado" th:text="${socios.totalElements} + ' socios encontrados'">26 socios encontrados</p>
+
+    <p th:if="${socios.empty}" class="vacio">No hay socios con ese apellido.</p>
+
+    <div class="tabla-contenedor" th:unless="${socios.empty}">
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Apellido y nombre</th>
+                <th>DNI</th>
+                <th class="num">Edad</th>
+                <th>Teléfono</th>
+                <th>Cuota</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${socios.content}">
+                <td><a th:href="@{/socios/{id}(id=${s.id})}" th:text="${s.apellido} + ', ' + ${s.nombre}">Gómez, Marta</a></td>
+                <td th:text="${s.dni}">9876543</td>
+                <td class="num" th:text="${s.calcularEdad(hoy)}">68</td>
+                <td th:text="${s.telefono} ?: '-'">351-555-0103</td>
+                <td>
+                    <span th:if="${s.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--alerta">Moroso</span>
+                    <span th:unless="${s.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--ok">Al día</span>
+                </td>
+                <td class="acciones">
+                    <a th:href="@{/socios/{id}(id=${s.id})}">Ver</a>
+                    <a th:href="@{/socios/{id}/editar(id=${s.id})}">Editar</a>
+                    <a th:href="@{/inscripciones/nueva(socioId=${s.id})}">Inscribir</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="paginacion" th:if="${socios.totalPages > 1}">
+        <a th:if="${socios.hasPrevious()}"
+           th:href="@{/socios(apellido=${apellido}, pagina=${socios.number - 1})}">&laquo; Anterior</a>
+        <span th:text="'Página ' + ${socios.number + 1} + ' de ' + ${socios.totalPages}">Página 1 de 3</span>
+        <a th:if="${socios.hasNext()}"
+           th:href="@{/socios(apellido=${apellido}, pagina=${socios.number + 1})}">Siguiente &raquo;</a>
+    </nav>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
