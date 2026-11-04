@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Inscriptos')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: encabezado('actividades')}"></header>
+
+	<main class="contenido">
+		<div class="titulo-seccion">
+			<div>
+				<h1 th:text="'Inscriptos en ' + ${actividad.nombre}">Inscriptos en Ajedrez</h1>
+				<p class="subtitulo">
+					<span th:text="${actividad.dias} + ' ' + ${actividad.horario} + ' · ' + ${actividad.profesor}">Sáb 10:00</span> ·
+					<strong th:if="${actividad.cupoDisponible == 0}" class="etiqueta etiqueta--roja">Sin cupo</strong>
+					<span th:unless="${actividad.cupoDisponible == 0}"
+						th:text="'Quedan ' + ${actividad.cupoDisponible} + ' lugares de ' + ${actividad.cupoMaximo}">Quedan 1 lugares de 16</span>
+				</p>
+			</div>
+			<a class="boton" th:href="@{/inscripciones/nueva(actividadId=${actividad.id})}">+ Inscribir socio</a>
+		</div>
+
+		<div th:replace="~{fragmentos :: mensajes}"></div>
+
+		<p th:if="${#lists.isEmpty(inscripciones)}" class="vacio">Esta actividad todavía no tiene inscriptos.</p>
+
+		<div class="tabla-contenedor" th:unless="${#lists.isEmpty(inscripciones)}">
+			<table class="tabla">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Socio</th>
+						<th>DNI</th>
+						<th>Cuota</th>
+						<th>Inscripto desde</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="i, estado : ${inscripciones}">
+						<td th:text="${estado.count}">1</td>
+						<td th:text="${i.socio.apellido} + ', ' + ${i.socio.nombre}">Gómez, Marta</td>
+						<td th:text="${i.socio.dni}">9876543</td>
+						<td>
+							<span th:if="${i.socio.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--roja">Moroso</span>
+							<span th:unless="${i.socio.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--verde">Al día</span>
+						</td>
+						<td th:text="${#temporals.format(i.fechaInscripcion, 'dd/MM/yyyy')}">20/02/2026</td>
+						<td>
+							<form th:action="@{/inscripciones/{id}/baja(id=${i.id})}" method="post"
+								onsubmit="return confirm('¿Dar de baja esta inscripción?');">
+								<button type="submit" class="enlace-peligro">Dar de baja</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<p><a th:href="@{/actividades}">← Volver a actividades</a></p>
+	</main>
+
+	<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

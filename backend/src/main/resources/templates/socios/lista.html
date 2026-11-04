@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Socios')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: encabezado('socios')}"></header>
+
+	<main class="contenido">
+		<div class="titulo-seccion">
+			<h1>Socios</h1>
+			<a class="boton" th:href="@{/socios/nuevo}">+ Nuevo socio</a>
+		</div>
+
+		<div th:replace="~{fragmentos :: mensajes}"></div>
+
+		<form class="filtro" th:action="@{/socios}" method="get">
+			<label for="apellido">Buscar por apellido</label>
+			<input type="search" id="apellido" name="apellido" th:value="${apellido}" placeholder="Ej.: Gómez">
+			<button type="submit" class="boton boton--secundario">Buscar</button>
+			<a th:if="${!#strings.isEmpty(apellido)}" th:href="@{/socios}">Limpiar</a>
+		</form>
+
+		<p th:if="${pagina.totalElements == 0}" class="vacio">
+			No se encontraron socios<span th:if="${!#strings.isEmpty(apellido)}" th:text="' con el apellido «' + ${apellido} + '»'"></span>.
+		</p>
+
+		<div class="tabla-contenedor" th:if="${pagina.totalElements > 0}">
+			<table class="tabla">
+				<thead>
+					<tr>
+						<th>Apellido y nombre</th>
+						<th>DNI</th>
+						<th>Nacimiento</th>
+						<th>Email</th>
+						<th>Teléfono</th>
+						<th>Cuota</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s : ${pagina.content}">
+						<td><strong th:text="${s.apellido} + ', ' + ${s.nombre}">Fernández, Lucía</strong></td>
+						<td th:text="${s.dni}">40123456</td>
+						<td th:text="${#temporals.format(s.fechaNacimiento, 'dd/MM/yyyy')}">14/05/1997</td>
+						<td th:text="${s.email} ?: '—'">lucia@mail.com</td>
+						<td th:text="${s.telefono} ?: '—'">351-555-0101</td>
+						<td>
+							<span th:if="${s.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--roja">Moroso</span>
+							<span th:unless="${s.estadoCuota.name() == 'MOROSO'}" class="etiqueta etiqueta--verde">Al día</span>
+						</td>
+						<td class="acciones">
+							<a th:href="@{/socios/{id}/editar(id=${s.id})}">Editar</a>
+							<a th:href="@{/inscripciones/nueva(socioId=${s.id})}">Inscribir</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Paginación: Page trae el número de página, el total y si hay anterior/siguiente -->
+		<nav class="paginacion" th:if="${pagina.totalPages > 1}" aria-label="Páginas">
+			<a th:if="${pagina.hasPrevious()}"
+				th:href="@{/socios(apellido=${apellido}, pagina=${pagina.number - 1})}">← Anterior</a>
+			<a th:each="n : ${#numbers.sequence(0, pagina.totalPages - 1)}"
+				th:href="@{/socios(apellido=${apellido}, pagina=${n})}" th:text="${n + 1}"
+				th:classappend="${n == pagina.number} ? 'activo'">1</a>
+			<a th:if="${pagina.hasNext()}"
+				th:href="@{/socios(apellido=${apellido}, pagina=${pagina.number + 1})}">Siguiente →</a>
+		</nav>
+		<p class="subtitulo" th:if="${pagina.totalElements > 0}"
+			th:text="${pagina.totalElements} + ' socios · página ' + ${pagina.number + 1} + ' de ' + ${pagina.totalPages}">26 socios</p>
+	</main>
+
+	<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

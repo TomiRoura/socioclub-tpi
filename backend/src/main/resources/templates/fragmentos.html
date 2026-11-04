@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- Fragmentos reutilizables: todas las pantallas de secretaría los incluyen con th:replace -->
+
+<head th:fragment="head(titulo)">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${titulo} + ' · Secretaría SocioClub'">Secretaría SocioClub</title>
+	<link rel="icon" th:href="@{/img/logo.svg}" type="image/svg+xml">
+	<link rel="stylesheet" th:href="@{/css/secretaria.css}">
+</head>
+
+<body>
+
+	<header th:fragment="encabezado(seccion)" class="encabezado">
+		<div class="encabezado__marca">
+			<img th:src="@{/img/logo.svg}" alt="Logo del Club Los Algarrobos" width="40" height="40">
+			<div>
+				<strong>Club Los Algarrobos</strong>
+				<span>Secretaría</span>
+			</div>
+		</div>
+		<nav class="encabezado__menu">
+			<a th:href="@{/actividades}" th:classappend="${seccion == 'actividades'} ? 'activo'">Actividades</a>
+			<a th:href="@{/socios}" th:classappend="${seccion == 'socios'} ? 'activo'">Socios</a>
+			<a th:href="@{/inscripciones/nueva}" th:classappend="${seccion == 'inscripciones'} ? 'activo'">Inscribir</a>
+		</nav>
+	</header>
+
+	<!-- Mensajes que vienen del controlador (flash después de un redirect o atributo del modelo) -->
+	<div th:fragment="mensajes">
+		<p class="mensaje mensaje--exito" th:if="${exito}" th:text="${exito}">Operación realizada</p>
+		<p class="mensaje mensaje--error" th:if="${error}">
+			<span th:text="${error}">Error</span>
+			<strong th:if="${regla}" th:text="'(' + ${regla} + ')'">(RN1)</strong>
+		</p>
+	</div>
+
+	<footer th:fragment="pie" class="pie">
+		<p>SocioClub · Club Social y Deportivo Los Algarrobos · Córdoba</p>
+	</footer>
+
+</body>
+</html>
