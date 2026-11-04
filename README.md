@@ -122,4 +122,5 @@ Recién cargado el script, a Ajedrez le queda un lugar y Yoga está lleno.
 ```
 Loyola Vazquez Martin - 43043048
 Tillard Franco Tomas - 42783715
+Bertero Franco Andres - 40118943
 ```
