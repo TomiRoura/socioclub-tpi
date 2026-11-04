@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSocio } from '../contexto/SocioContext';
 import { inscribir, listarActividades } from '../servicios/api';
-import { DISCIPLINAS } from '../utils/constantes';
 import TarjetaActividad from './TarjetaActividad';
 import Mensaje from './Mensaje';
 import './ListaActividades.css';
@@ -10,6 +9,9 @@ function ListaActividades() {
   const { socio } = useSocio();
   const [actividades, setActividades] = useState([]);
   const [disciplina, setDisciplina] = useState(''); // '' = todas
+  // Opciones del filtro. Salen de la carga sin filtro: si salieran de "actividades", al elegir una
+  // disciplina la lista quedaría solo con esa y el select perdería las demás opciones.
+  const [disciplinas, setDisciplinas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
   const [mensaje, setMensaje] = useState(null);
@@ -24,7 +26,9 @@ function ListaActividades() {
 
     listarActividades(disciplina)
       .then((datos) => {
-        if (vigente) setActividades(datos);
+        if (!vigente) return;
+        setActividades(datos);
+        if (disciplina === '') setDisciplinas([...new Set(datos.map((a) => a.disciplina))]);
       })
       .catch((err) => {
         if (vigente) setError(err.message);
@@ -62,7 +66,7 @@ function ListaActividades() {
           Disciplina
           <select value={disciplina} onChange={(evento) => setDisciplina(evento.target.value)}>
             <option value="">Todas</option>
-            {DISCIPLINAS.map((nombre) => (
+            {disciplinas.map((nombre) => (
               <option key={nombre} value={nombre}>
                 {nombre}
               </option>
