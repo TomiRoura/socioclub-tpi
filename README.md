@@ -72,7 +72,7 @@ Todo bajo `http://localhost:8080/api`:
 | POST | `/inscripciones` con `{ "socioId": 1, "actividadId": 6 }` | 201 / 404 / 409 |
 | PUT | `/inscripciones/{id}/baja` | 200 / 404 |
 
-Cuando una regla rechaza la inscripción devuelve 409 con `{ "error": "La actividad no tiene cupo disponible", "regla": "RN1" }`. CORS está abierto para `http://localhost:3000`.
+Cuando una regla rechaza la inscripción devuelve 409 con `{ "error": "La actividad no tiene cupo disponible", "regla": "RN1" }`. CORS está abierto para la app en `http://localhost` con cualquier puerto (si el 3000 está ocupado, React arranca en el 3001).
 
 ### Postman
 
