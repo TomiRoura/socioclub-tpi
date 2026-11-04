@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head('Inscribir socio')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: encabezado('inscripciones')}"></header>
+
+	<main class="contenido contenido--angosto">
+		<h1>Inscribir socio en una actividad</h1>
+		<p class="subtitulo">Al guardar se controlan cuota al día, duplicados, máximo de 3 actividades, edad y cupo.</p>
+
+		<!-- Si una regla rechaza la inscripción, el controlador manda "error" y "regla" y se muestran acá -->
+		<div th:replace="~{fragmentos :: mensajes}"></div>
+
+		<form class="formulario" th:action="@{/inscripciones}" th:object="${inscripcion}" method="post">
+			<div class="campo">
+				<label for="socioId">Socio</label>
+				<select th:field="*{socioId}" required>
+					<option value="">Elegí un socio…</option>
+					<option th:each="s : ${socios}" th:value="${s.id}"
+						th:text="${s.apellido} + ', ' + ${s.nombre} + ' (DNI ' + ${s.dni} + ')' + (${s.estadoCuota.name() == 'MOROSO'} ? ' · MOROSO' : '')">
+						Fernández, Lucía (DNI 40123456)</option>
+				</select>
+			</div>
+			<div class="campo">
+				<label for="actividadId">Actividad</label>
+				<select th:field="*{actividadId}" required>
+					<option value="">Elegí una actividad…</option>
+					<option th:each="a : ${actividades}" th:value="${a.id}"
+						th:text="${a.nombre} + ' · ' + ${a.edadMinima} + ' a ' + ${a.edadMaxima} + ' años · ' + (${a.cupoDisponible == 0} ? 'sin cupo' : ${a.cupoDisponible} + ' lugares')">
+						Ajedrez</option>
+				</select>
+			</div>
+
+			<div class="botones">
+				<button type="submit" class="boton">Inscribir</button>
+				<a class="boton boton--secundario" th:href="@{/actividades}">Cancelar</a>
+			</div>
+		</form>
+	</main>
+
+	<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
