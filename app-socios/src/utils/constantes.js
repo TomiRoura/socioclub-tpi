@@ -10,15 +10,3 @@ export const DESCUENTOS = [
   { desdeActividades: 3, porcentaje: 15 },
   { desdeActividades: 2, porcentaje: 10 },
 ];
-
-// Opciones del filtro del catálogo. Tienen que coincidir con el campo "disciplina" de la API.
-export const DISCIPLINAS = [
-  'Fútbol',
-  'Vóley',
-  'Básquet',
-  'Natación',
-  'Patín',
-  'Ajedrez',
-  'Fitness',
-  'Bienestar',
-];
