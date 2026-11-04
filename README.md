@@ -119,4 +119,4 @@ Son archivos estáticos: alcanza con abrir `sitio-publico/index.html` en el nave
 Recién cargado el script, a Ajedrez le queda un lugar y Yoga está lleno.
 
 ## Integrantes
-
+Loyola Vazquez Martin - 43043048
