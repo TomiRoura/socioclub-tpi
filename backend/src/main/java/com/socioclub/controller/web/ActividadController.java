@@ -2,6 +2,7 @@ package com.socioclub.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +59,14 @@ public class ActividadController {
 
 	// Alta y modificación usan el mismo formulario: si viene id es una modificación
 	@PostMapping("/guardar")
-	public String guardar(@ModelAttribute("actividad") Actividad actividad, Model model, RedirectAttributes flash) {
+	public String guardar(@ModelAttribute("actividad") Actividad actividad, BindingResult resultado, Model model,
+			RedirectAttributes flash) {
+		// Si llega texto donde va un número (por ejemplo "abc" en el cupo), Spring no puede convertirlo:
+		// en vez de una página de error 400 se vuelve al formulario con un aviso
+		if (resultado.hasErrors()) {
+			model.addAttribute("error", "Revisá los campos numéricos: edades, cupo y cuota tienen que ser números enteros");
+			return "actividades/formulario";
+		}
 		boolean esNueva = actividad.getId() == null;
 		try {
 			Actividad guardada = actividadService.guardar(actividad);

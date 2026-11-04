@@ -5,7 +5,7 @@
 	<header th:replace="~{fragmentos :: encabezado('socios')}"></header>
 
 	<main class="contenido contenido--angosto">
-		<h1 th:text="${socio.id == null} ? 'Nuevo socio' : 'Editar a ' + ${socio.nombre} + ' ' + ${socio.apellido}">Nuevo socio</h1>
+		<h1 th:text="${socio.id == null} ? 'Nuevo socio' : 'Editar a ' + (${#strings.isEmpty(socio.nombre)} ? 'socio' : ${socio.nombre} + ' ' + ${socio.apellido})">Nuevo socio</h1>
 
 		<div th:replace="~{fragmentos :: mensajes}"></div>
 

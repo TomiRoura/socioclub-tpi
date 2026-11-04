@@ -3,6 +3,7 @@ package com.socioclub.controller.web;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,10 @@ public class SocioController {
 	public String listar(@RequestParam(defaultValue = "") String apellido,
 			@RequestParam(defaultValue = "0") int pagina, Model model) {
 		Page<Socio> pagSocios = socioService.buscarPorApellido(apellido, pagina);
+		// Si piden una página que no existe (por ejemplo ?pagina=99) se muestra la última
+		if (pagSocios.getTotalPages() > 0 && pagina >= pagSocios.getTotalPages()) {
+			pagSocios = socioService.buscarPorApellido(apellido, pagSocios.getTotalPages() - 1);
+		}
 		model.addAttribute("pagina", pagSocios);
 		model.addAttribute("apellido", apellido);
 		return "socios/lista";
@@ -62,7 +67,13 @@ public class SocioController {
 	}
 
 	@PostMapping("/guardar")
-	public String guardar(@ModelAttribute("socio") Socio socio, Model model, RedirectAttributes flash) {
+	public String guardar(@ModelAttribute("socio") Socio socio, BindingResult resultado, Model model,
+			RedirectAttributes flash) {
+		if (resultado.hasErrors()) {
+			model.addAttribute("error", "Revisá la fecha de nacimiento y el estado de la cuota");
+			model.addAttribute("estados", EstadoCuota.values());
+			return "socios/formulario";
+		}
 		boolean esNuevo = socio.getId() == null;
 		try {
 			Socio guardado = socioService.guardar(socio);

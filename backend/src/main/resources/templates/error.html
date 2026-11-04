@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- Spring Boot usa esta plantilla en lugar de la "Whitelabel Error Page" cuando algo falla -->
+<head th:replace="~{fragmentos :: head('Error')}"></head>
+<body>
+	<header th:replace="~{fragmentos :: encabezado('')}"></header>
+
+	<main class="contenido contenido--angosto">
+		<h1 th:text="${status == 404} ? 'No encontramos esa página' : 'Algo salió mal'">Algo salió mal</h1>
+		<p class="subtitulo" th:if="${status == 404}">La dirección no existe o el dato fue eliminado.</p>
+		<p class="subtitulo" th:if="${status == 400}">Algún dato enviado no tiene el formato esperado.</p>
+		<p class="subtitulo" th:if="${status != 404 and status != 400}">Probá de nuevo. Si sigue pasando, revisá la consola del backend.</p>
+		<p class="subtitulo" th:text="'Código ' + ${status}">Código 500</p>
+		<p><a class="boton" th:href="@{/actividades}">Volver a actividades</a></p>
+	</main>
+
+	<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>

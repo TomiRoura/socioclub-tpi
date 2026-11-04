@@ -5,7 +5,7 @@
 	<header th:replace="~{fragmentos :: encabezado('actividades')}"></header>
 
 	<main class="contenido contenido--angosto">
-		<h1 th:text="${actividad.id == null} ? 'Nueva actividad' : 'Editar ' + ${actividad.nombre}">Nueva actividad</h1>
+		<h1 th:text="${actividad.id == null} ? 'Nueva actividad' : 'Editar ' + (${#strings.isEmpty(actividad.nombre)} ? 'actividad' : ${actividad.nombre})">Nueva actividad</h1>
 
 		<div th:replace="~{fragmentos :: mensajes}"></div>
 

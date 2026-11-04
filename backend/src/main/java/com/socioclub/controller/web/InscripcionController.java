@@ -2,6 +2,7 @@ package com.socioclub.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,8 +49,13 @@ public class InscripcionController {
 	}
 
 	@PostMapping
-	public String inscribir(@ModelAttribute("inscripcion") InscripcionForm form, Model model,
+	public String inscribir(@ModelAttribute("inscripcion") InscripcionForm form, BindingResult resultado, Model model,
 			RedirectAttributes flash) {
+		if (resultado.hasErrors()) {
+			model.addAttribute("error", "Elegí un socio y una actividad");
+			cargarCombos(model);
+			return "inscripciones/formulario";
+		}
 		try {
 			Inscripcion nueva = inscripcionService.inscribir(form.getSocioId(), form.getActividadId());
 			flash.addFlashAttribute("exito", nueva.getSocio().getNombre() + " " + nueva.getSocio().getApellido()
