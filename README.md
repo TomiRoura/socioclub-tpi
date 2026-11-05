@@ -2,6 +2,13 @@
 
 Trabajo práctico integrador de la materia **Taller de Construcción de Software** (Universidad Siglo 21).
 
+## Integrantes
+
+Tomas Rodriguez Roura - 42475152
+Loyola Vazquez Martin - 43043048
+Tillard Franco Tomas - 42783715
+Bertero Franco Andres - 40118943
+
 ## Estructura
 
 - `/sitio-publico`: sitio web público del club (HTML, CSS y JavaScript).
@@ -118,9 +125,3 @@ Son archivos estáticos: alcanza con abrir `sitio-publico/index.html` en el nave
 
 Recién cargado el script, a Ajedrez le queda un lugar y Yoga está lleno.
 
-## Integrantes
-```
-Loyola Vazquez Martin - 43043048
-Tillard Franco Tomas - 42783715
-Bertero Franco Andres - 40118943
-```
