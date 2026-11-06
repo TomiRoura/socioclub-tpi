@@ -8,6 +8,7 @@ Tomas Rodriguez Roura - 42475152
 Loyola Vazquez Martin - 43043048
 Tillard Franco Tomas - 42783715
 Bertero Franco Andres - 40118943
+Davicino Alvaro Dante
 
 ## Estructura
 
